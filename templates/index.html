@@ -1,0 +1,42 @@
+
+<html>
+
+    <head>
+    </head>
+    
+    <body>
+        <h1>
+            Cars
+        </h1>
+        <table>
+            <thead>
+               <td>Mark</td>
+               <td>Model</td>
+               <td>Engine</td>
+            </thead>
+            {% for car in cars %}
+               <tr>
+                  <td>{{car[0]}}</td>
+                  <td>{{car[1]}}</td>
+                  <td>{{car[2]}}</td>
+               </tr>
+            {% endfor %}
+         </table>
+         <h1>Add Car</h1>
+         <form method=post action="/addCar">
+            Make: <input type=text name=make>
+            Model: <input type=text name=model>
+            Year: <input type="text" name=year>
+            <input type=submit value="Add">
+        </form>
+         <br>
+         {% if isAdmin == 1 %}
+
+         <h1><a href='/users'>Users list</a></h1>
+     
+         {% endif %}
+         <br>
+         <h1><a href=/logout>Logout</a></h1>
+    </body>
+    
+    </html>
