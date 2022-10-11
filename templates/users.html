@@ -17,8 +17,8 @@
         
         {% for user in users %}
            <tr>
-              <td><a href='/user'>{{user[0]}}</a></td>
-              <td><a href='/user'>{{user[1]}}</a></td>
+              <td><a href='/user?id={{user[0]}}'>{{user[0]}}</a></td>
+              <td><a href='/user?name={{user[1]}}'>{{user[1]}}</a></td>
               <td>{{user[2]}}</td>
               <td>{{user[3]}}</td>
            </tr>

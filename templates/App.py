@@ -96,6 +96,24 @@ def users():
     else:
         return render_template('login.html')
 
+@app.route("/user", methods=['GET'])
+def user():
+    if isUserAdmin(session['user']):
+        if request.args.get("id") is not None:
+            return render_template('user.html',user=getUserById(request.args.get("id"))[0])
+        elif request.args.get("name") is not None:
+            return render_template('user.html',user=getUserByName(request.args.get("name"))[0])
+        else:
+            return redirect(url_for('users'))
+        
+        #key = request.args.keys()
+        arg = request.args.popitem()
+        return "sadasd   "
+    else:
+        return render_template('login.html')
+
+
+
 def getAllCars():
     conn = sqlite3.connect(DATABASE)
     cur = conn.cursor()
@@ -108,10 +126,28 @@ def getAllUsers():
     cur.execute("SELECT * FROM users")
     return cur.fetchall()
 
+def getUserById(id):
+    conn = sqlite3.connect(DATABASE)
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM users WHERE id = ?", [id])
+    return cur.fetchall()
 
-#TODO dokonczyc to
+def getUserByName(name):
+    conn = sqlite3.connect(DATABASE)
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM users WHERE username = ?", [name])
+    return cur.fetchall()
+
+
 def isUserAdmin(name):
-    return True
+    conn = sqlite3.connect(DATABASE)
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM users WHERE username = ? AND admin = 1", [name])
+    data=cur.fetchall()
+    if len(data)==0:
+        return False
+    else:
+        return True
 
 app.secret_key = 'super secret key'
 app.config['SESSION_TYPE'] = 'filesystem'
