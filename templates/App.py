@@ -14,13 +14,11 @@ DATABASE = 'database.db'
 def appInit():
     app.logger.info("before_first_request")
     conn = sqlite3.connect(DATABASE)
-    conn.execute('CREATE TABLE IF NOT EXISTS  users (username TEXT, password TEXT, admin INTEGER)')
-    conn.execute('CREATE TABLE IF NOT EXISTS cars (make TEXT, model TEXT, year INTEGER)')
-    #TODO sprawic zeby nie wpisywalo dwa razy tego samego usera ;]
-    conn.execute('INSERT INTO USERS (username,password,admin) VALUES ("admin","admin",1)')
+    conn.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER primary key, username TEXT UNIQUE, password TEXT, admin INTEGER)')
+    conn.execute('CREATE TABLE IF NOT EXISTS cars (make TEXT, model TEXT, year INTEGER )')
+    conn.execute('INSERT OR IGNORE INTO USERS (username,password,admin) VALUES ("admin","admin",1)')
     conn.commit()
     conn.close()
-
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
@@ -104,7 +102,6 @@ def getAllCars():
     cur.execute("SELECT * FROM cars")
     return cur.fetchall()
 
-#TODO DODAC JAKIES ID DO TEGO 
 def getAllUsers():
     conn = sqlite3.connect(DATABASE)
     cur = conn.cursor()
