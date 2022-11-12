@@ -105,10 +105,7 @@ def user():
             return render_template('user.html',user=getUserByName(request.args.get("name"))[0])
         else:
             return redirect(url_for('users'))
-        
-        #key = request.args.keys()
-        arg = request.args.popitem()
-        return "sadasd   "
+    
     else:
         return render_template('login.html')
 
